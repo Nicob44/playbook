@@ -1,0 +1,19 @@
+---
+- name: "Installer Nginx"
+  hosts: all
+  tasks:
+    - name: "Installation du package Nginx"
+      apt:
+        name: "nginx"
+        state: "present"
+    - name: "Demarrage du service Nginx"
+      service:
+        name: "nginx"
+        state: "started"
+        enabled: "yes"
+    - name: "Copie des fichiers"
+      copy:
+        src: "/etc/ansible/index.html"
+        dest: "/var/www/html/index.html"
+      
+        
