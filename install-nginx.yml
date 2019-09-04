@@ -1,5 +1,5 @@
 ---
-- name: "Installer Nginx"
+- name: "Installer Nginx dans une debian"
   hosts: all
   tasks:
     - name: "Installation du package Nginx"
