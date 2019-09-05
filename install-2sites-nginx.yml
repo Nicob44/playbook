@@ -63,7 +63,7 @@
 
     - name: "Installation d'outils"
       apt:
-        name: {{item}}
+        name: "{{ item }}"
         state: "latest"
       with_items:
         - htop
