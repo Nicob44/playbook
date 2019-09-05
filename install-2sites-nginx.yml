@@ -55,11 +55,8 @@
         src: "/etc/nginx/sites-available/nico.edu"
         dest: "/etc/nginx/sites-enabled/nico.edu"
         state: "link"
-
-    - name: "Redémarrage du service"
-      service:
-        name: "nginx"
-        state: "restarted"
+      notify:
+        - restart nginx
 
     - name: "Installation d'outils"
       apt:
@@ -70,3 +67,9 @@
         - git
         - zsh
         - sudo
+
+  handlers:
+    - name: restart nginx
+      service:
+        name: "nginx"
+        state: "restarted"
