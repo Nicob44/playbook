@@ -1,0 +1,62 @@
+---
+- name: "Installation de Nginx et configuration de 2 sites internet"
+  hosts: "all"
+  tasks:
+
+    - name: "Apt update"
+      apt:
+        update_cache: "yes"
+    
+    - name: "Installation de Nginx"
+      apt:
+        name: "nginx"
+        state: "present"
+    
+    - name: "Création du répertoire www.nico.org"
+      file:
+        path: "/var/www/www.nico.org/html"
+        state: "directory"
+        mode: "755"
+
+    - name: "Création du répertoire www.nico.edu"
+      file:
+        path: "/var/www/www.nico.edu/html"
+        state: "directory"
+        mode: "755"
+
+    - name: "Copie des fichiers html nico.org"
+      copy:
+        src: "/etc/ansible/nginx/nico.org/index.html"
+        dest: "/var/www/www.nico.org/html/index.html"
+
+    - name: "Copie des fichiers html nico.edu"
+      copy:
+        src: "/etc/ansible/nginx/nico.edu/index.html"
+        dest: "/var/www/www.nico.edu/html/index.html"
+
+    - name: "Copie des fichiers de conf du site nico.org"
+      copy:
+        src: "/etc/ansible/nginx/nico.org/nico.org"
+        dest: "/etc/nginx/sites-available/nico.org"
+
+    - name: "Copie des fichiers de conf du site nico.edu"
+      copy:
+        src: "/etc/ansible/nginx/nico.edu/nico.edu"
+        dest: "/etc/nginx/sites-available/nico.edu"
+
+    - name: "Création du lien symbolique nico.org"
+      file:
+        src: "/etc/nginx/sites-available/nico.org"
+        dest: "/etc/nginx/sites-enabled/nico.org"
+        state: "link"
+
+    - name: "Création du lien symbolique nico.edu"
+      file:
+        src: "/etc/nginx/sites-available/nico.edu"
+        dest: "/etc/nginx/sites-enabled/nico.edu"
+        state: "link"
+
+    - name: "Redémarrage du service"
+      service:
+        name: "nginx"
+        state: "restarted"
