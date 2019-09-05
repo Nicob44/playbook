@@ -60,3 +60,13 @@
       service:
         name: "nginx"
         state: "restarted"
+
+    - name: "Installation d'outils"
+      apt:
+        name: {{item}}
+        state: "latest"
+      with_items:
+        - htop
+        - git
+        - zsh
+        - sudo
